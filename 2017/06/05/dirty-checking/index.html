@@ -4,19 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>文杰的博客</title>
+    <title>Angular1的脏检查 | 文杰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="朴文杰">
     
 
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="文杰的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+    <meta name="description" content="angular并不存在定时脏检测。angular是基于事件触发，遍历rootscope， 检查所有的watcher。读 徐飞的双向绑定 有感
+
+ng只有在指定事件触发后，才进入$digest cycle：
+DOM事件，譬如用户输入文本，点击按钮等。(ng-click)
+XHR响应事件 ($http)
+浏览器Location变更事件 ($location)
+Timer事件($timeout, $i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular1的脏检查">
+<meta property="og:url" content="http://yoursite.com/2017/06/05/dirty-checking/index.html">
 <meta property="og:site_name" content="文杰的博客">
+<meta property="og:description" content="angular并不存在定时脏检测。angular是基于事件触发，遍历rootscope， 检查所有的watcher。读 徐飞的双向绑定 有感
+
+ng只有在指定事件触发后，才进入$digest cycle：
+DOM事件，譬如用户输入文本，点击按钮等。(ng-click)
+XHR响应事件 ($http)
+浏览器Location变更事件 ($location)
+Timer事件($timeout, $i">
+<meta property="og:updated_time" content="2017-06-06T04:46:56.332Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="文杰的博客">
+<meta name="twitter:title" content="Angular1的脏检查">
+<meta name="twitter:description" content="angular并不存在定时脏检测。angular是基于事件触发，遍历rootscope， 检查所有的watcher。读 徐飞的双向绑定 有感
+
+ng只有在指定事件触发后，才进入$digest cycle：
+DOM事件，譬如用户输入文本，点击按钮等。(ng-click)
+XHR响应事件 ($http)
+浏览器Location变更事件 ($location)
+Timer事件($timeout, $i">
 
     
     <link rel="alternative" href="/atom.xml" title="文杰的博客" type="application/atom+xml">
@@ -70,12 +92,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2017/06/05/dirty-checking/" title="Angular1的脏检查" itemprop="url">Angular1的脏检查</a>
@@ -89,9 +109,16 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <blockquote>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ng只有在指定事件触发后，才进入-digest-cycle："><span class="toc-number">1.</span> <span class="toc-text">ng只有在指定事件触发后，才进入$digest cycle：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如没有AngularJS该如何实现双向绑定的效果"><span class="toc-number">2.</span> <span class="toc-text">假如没有AngularJS该如何实现双向绑定的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#digest和-apply"><span class="toc-number">3.</span> <span class="toc-text">$digest和$apply</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
 <p>angular并不存在定时脏检测。angular是基于事件触发，遍历rootscope， 检查所有的watcher。读 <a href="https://github.com/xufei/blog/issues/10" target="_blank" rel="external">徐飞的双向绑定</a> 有感</p>
 </blockquote>
 <h2 id="ng只有在指定事件触发后，才进入-digest-cycle："><a href="#ng只有在指定事件触发后，才进入-digest-cycle：" class="headerlink" title="ng只有在指定事件触发后，才进入$digest cycle："></a>ng只有在指定事件触发后，才进入$digest cycle：</h2><ol>
@@ -246,14 +273,9 @@
 <p>这时候，我们就能看出差别了，在increase b按钮上点击，这时候，a跟b的值其实都已经变化了，但是界面上的a没有更新，直到点击一次increase a，这时候刚才对a的累加才会一次更新上来。怎么解决这个问题呢？只需在increaseb这个指令的实现中，把$digest换成$apply即可。</p>
 <p>因此，从性能上讲，如果能确定自己作的这个数据变更所造成的影响范围，应当尽量调用$digest，只有当无法精确知道数据变更造成的影响范围时，才去用$apply，很暴力地遍历整个作用域树，调用其中所有的监控</p>
 <p>从另外一个角度，我们也可以看到，为什么调用外部框架的时候，是推荐放在$apply中，因为只有这个地方才是对所有数据变更都应用的地方，如果用$digest，有可能临时丢失数据变更。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+  
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
@@ -261,73 +283,43 @@
 
 
 
-
-<div class="comments-count">
+	<div class="article-share" id="share">
 	
-</div>
+	  <div data-url="http://yoursite.com/2017/06/05/dirty-checking/" data-title="Angular1的脏检查 | 文杰的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
 
 </footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/01/index/" title="空港曲" itemprop="url">空港曲</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="朴文杰" target="_blank" itemprop="author">朴文杰</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-01T06:42:59.000Z" itemprop="datePublished"> Published 2017-04-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <center><br>脏水洗身 浊杯赴宴<br><br>欲辩忘言 忘言欲辩<br><br>戏子与警察又念起诗篇<br><br>盗贼 王臣 谎言<br><br>如来的饭碗 荒诞世间<br><br>你我登船 送命或寻欢<br><br>草庐高堂 金光大道<br><br>闲云 牛马 杀人刀<br><br>可春色不过宛若江南<br><br>可月色不过对影三人<br><br>可艺术之王垂死于度量<br><br>可信仰不过是忘记真相<br><br>但愿病重的医生心有余悸<br><br>但愿一切亲吻 不悲不喜<br><br>但愿不在此时此地<br><br>但愿谁都不在意<br><br>可春色不过宛若江南<br><br>可月色不过对影三人<br><br>可艺术之王垂死于度量<br><br>可信仰不过是忘记真相<br><br>但愿病重的医生心有余悸<br><br>但愿一切亲吻 不悲不喜<br><br>但愿不在此时此地<br><br>但愿谁都不在意<br><br></center>    
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
+   	       
+	</article>
 	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/04/01/index/"  title="空港曲">
+ <strong>下一篇：</strong><br/> 
+ <span>空港曲
+</span>
+</a>
 </div>
 
-</footer>
+</nav>
 
+	
 
-    </article>
-
-
-
-
-
-
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ng只有在指定事件触发后，才进入-digest-cycle："><span class="toc-number">1.</span> <span class="toc-text">ng只有在指定事件触发后，才进入$digest cycle：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如没有AngularJS该如何实现双向绑定的效果"><span class="toc-number">2.</span> <span class="toc-text">假如没有AngularJS该如何实现双向绑定的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#digest和-apply"><span class="toc-number">3.</span> <span class="toc-text">$digest和$apply</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
@@ -465,12 +457,89 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
 
 
 
@@ -541,4 +610,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>
