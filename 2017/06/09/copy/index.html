@@ -1,29 +1,36 @@
 
-  
-    <!DOCTYPE HTML>
+ <!DOCTYPE HTML>
 <html lang="cn">
 <head>
   <meta charset="UTF-8">
   
-    <title>about | 文杰的博客</title>
+    <title>Javascript 浅拷贝和深拷贝 | 文杰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="朴文杰">
     
 
     
-    <meta name="description" content="如果前进的道路上没有摩擦，你的脚步就不会像自己希望的那样坚定">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://yoursite.com/about/index.html">
+    <meta name="description" content="最近项目中遇到了JS对象的拷贝问题，比如说把一个对象复制给另一个值，改变了这个值的属性，原来对象也跟着改变了，因为项目中用到了angular，angular有copy方法可以解决这个问题，但是为了满足自己的好奇心，还是自己分析了一波。
+
+ 出现这种问题主要是因为JS的变量分为值类型和引用类型，值类型：null undefined number string boolean，引用类型主要是对象，因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript 浅拷贝和深拷贝">
+<meta property="og:url" content="http://yoursite.com/2017/06/09/copy/index.html">
 <meta property="og:site_name" content="文杰的博客">
-<meta property="og:description" content="如果前进的道路上没有摩擦，你的脚步就不会像自己希望的那样坚定">
-<meta property="og:image" content="http://yoursite.com/img/about-me.jpg">
-<meta property="og:updated_time" content="2017-06-05T10:08:18.612Z">
+<meta property="og:description" content="最近项目中遇到了JS对象的拷贝问题，比如说把一个对象复制给另一个值，改变了这个值的属性，原来对象也跟着改变了，因为项目中用到了angular，angular有copy方法可以解决这个问题，但是为了满足自己的好奇心，还是自己分析了一波。
+
+ 出现这种问题主要是因为JS的变量分为值类型和引用类型，值类型：null undefined number string boolean，引用类型主要是对象，因">
+<meta property="og:image" content="http://yoursite.com/img/shadow-copy1.png">
+<meta property="og:image" content="http://yoursite.com/img/shadow-copy2.png">
+<meta property="og:image" content="http://yoursite.com/img/deep-copy.png">
+<meta property="og:updated_time" content="2017-06-09T07:16:13.044Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="如果前进的道路上没有摩擦，你的脚步就不会像自己希望的那样坚定">
-<meta name="twitter:image" content="http://yoursite.com/img/about-me.jpg">
+<meta name="twitter:title" content="Javascript 浅拷贝和深拷贝">
+<meta name="twitter:description" content="最近项目中遇到了JS对象的拷贝问题，比如说把一个对象复制给另一个值，改变了这个值的属性，原来对象也跟着改变了，因为项目中用到了angular，angular有copy方法可以解决这个问题，但是为了满足自己的好奇心，还是自己分析了一波。
+
+ 出现这种问题主要是因为JS的变量分为值类型和引用类型，值类型：null undefined number string boolean，引用类型主要是对象，因">
+<meta name="twitter:image" content="http://yoursite.com/img/shadow-copy1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="文杰的博客" type="application/atom+xml">
@@ -38,9 +45,9 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-      <body>
-        <header>
-          
+  <body>
+    <header>
+      
 <div>
 		
 			<div id="imglogo">
@@ -75,31 +82,85 @@
 				</ul>
 			</nav>			
 </div>
-        </header>
-        <div id="container">
-          <div id="main" class="page" itemscope itemprop="blogPost">
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/about/index.html" title="about" itemprop="url">about</a>
+      <a href="/2017/06/09/copy/" title="Javascript 浅拷贝和深拷贝" itemprop="url">Javascript 浅拷贝和深拷贝</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="朴文杰" target="_blank" itemprop="author">朴文杰</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-05T04:45:33.000Z" itemprop="datePublished"> 发表于 2017-06-05</time>
+    <time datetime="2017-06-09T06:22:32.000Z" itemprop="datePublished"> 发表于 2017-06-09</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
 		<blockquote>
-<p>如果前进的道路上没有摩擦，你的脚步就不会像自己希望的那样坚定</p>
+<p>最近项目中遇到了JS对象的拷贝问题，比如说把一个对象复制给另一个值，改变了这个值的属性，原来对象也跟着改变了，因为项目中用到了angular，angular有copy方法可以解决这个问题，但是为了满足自己的好奇心，还是自己分析了一波。</p>
 </blockquote>
-<p><img src="/img/about-me.jpg" alt="Alt text"></p>
+<p><strong> 出现这种问题主要是因为JS的变量分为值类型和引用类型，值类型：null undefined number string boolean，引用类型主要是对象，因为引用类型在内存的栈当中存的是地址，所以赋值给另一个变量的时候也是把地址给人家，所以修改的时候操作是堆中同一个地址存储的数据。</strong></p>
+<ol>
+<li><p>浅拷贝</p>
+<p> 浅拷贝适合对象的属性值都是值类型的对象，如果属性值为引用类型，比如对象或者数组，那浅拷贝就满足不了这种对象的拷贝了，那时候就要考虑一波深度拷贝了。</p>
+ <pre>
+     <code>
+         var Chinese = {nation:'中国'}
+         var Doctor = {
+         　　career:'医生'
+         }　　
+         function extendCopy(p) {
+         　　　　var c = {};
+         　　　　for (var i in p) { 
+         　　　　　　c[i] = p[i];
+         　　　　}
+         　　　　c.uber = p;
+         　　　　return c;
+         　}
+         var Doctor = extendCopy(Chinese);
+         Doctor.career = '医生';
+         alert(Doctor.nation); // 中国
+     </code>    
+ </pre>
+
+<p> <img src="/img/shadow-copy1.png" alt=""></p>
+</li>
+<li><p>深拷贝</p>
+<p> 深拷贝原理和浅拷贝一样，就是遇到属性为引用类型的时候，再递归的调用方法，直到不是引用类型。</p>
+<p> <img src="/img/shadow-copy2.png" alt=""></p>
+ <pre>
+     <code>function deepCopy(p, c) {
+         　　　　var c = c || {};
+         　　　　for (var i in p) {
+         　　　　　　if (typeof p[i] === 'object') {
+         　　　　　　　　c[i] = (p[i].constructor === Array) ? [] : {};
+         　　　　　　　　deepCopy(p[i], c[i]);
+         　　　　　　} else {
+         　　　　　　　　　c[i] = p[i];
+         　　　　　　}
+         　　　　}
+         　　　　return c;
+         　　}
+     </code>
+ </pre>
+
+<p> <img src="/img/deep-copy.png" alt=""></p>
+</li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,7 +173,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/about/index.html" data-title="about | 文杰的博客" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/06/09/copy/" data-title="Javascript 浅拷贝和深拷贝 | 文杰的博客" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -123,11 +184,79 @@
    	       
 	</article>
 	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/06/05/dirty-checking/"  title="Angular1的脏检查">
+ <strong>下一篇：</strong><br/> 
+ <span>Angular1的脏检查
+</span>
+</a>
+</div>
+
+</nav>
+
 	
 
 </div>  
-        </div>
-        <footer><div id="footer" >
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.wangyuanliang.com/" target="_blank" title="远亮的博客">远亮的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/75745640/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=b3593ceb&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
 	
 	<div class="line">
 		<span></span>
@@ -172,7 +301,7 @@
 		</p>
 </div>
 </footer>
-        <script src="/js/jquery-2.0.3.min.js"></script>
+    <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 <script src="/js/jquery.qrcode-0.12.0.min.js"></script>
@@ -216,8 +345,36 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
   });
 });
 </script>
@@ -340,6 +497,5 @@ var _hmt = _hmt || [];
 
 <!-- Tiny_search End -->
 
-      </body>
-     </html>
-     
+  </body>
+</html>
